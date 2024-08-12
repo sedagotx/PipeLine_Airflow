@@ -1,0 +1,6 @@
+@PipeLine_Airflow_HostAddress = http://localhost:5041
+
+GET {{PipeLine_Airflow_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
