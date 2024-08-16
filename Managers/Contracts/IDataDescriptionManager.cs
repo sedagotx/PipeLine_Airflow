@@ -13,4 +13,6 @@ public partial interface IDataDescriptionManager
     Task<DataDescriptionModel> AddDataAsync(DataDescriptionModel data);
     Task<DataDescriptionModel> UpdateAsync(Guid datadescritionId, DataDescriptionModel data);
     Task DeleteAsync(Guid datadescritionId);
+    Task<DataDescriptionModel> GetDataDescriptionById(Guid datadescritionId);
+    Task<IEnumerable<DataDescriptionModel>> Search(string titleName, string descriptions);
 }

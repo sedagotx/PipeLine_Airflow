@@ -1,10 +1,12 @@
 ﻿using DataLibrary.Context;
 using DataLibrary.Models;
 using Managers.Contracts;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -92,5 +94,40 @@ public partial class DataDescriptionManager : IDataDescriptionManager
 
         var result = await _context.SaveChangesAsync();
         return result >= 0 ? data : null;
+    }
+
+    public async Task<IEnumerable<DataDescriptionModel>> Search(string titleName, string descriptions)
+    {
+        //IQueryable<tblDataDescription> query = _context.tblDataDescriptions;
+        //var dataList = _context.tblDataDescriptions.Where(e => e.Title.Contains(titleName)).ToList();
+        var dataList = _context.tblDataDescriptions.Where(e => e.Title.ToLower().Contains(titleName.ToLower())).ToList();
+        var response = new List<DataDescriptionModel>();
+        dataList.ForEach(row => response.Add(new DataDescriptionModel()
+        {
+            DataDescriptionId = row.DataDescriptionId,
+            DataDescriptions = row.DataDescriptions,
+            DataUploadStatus = row.DataUploadStatus,
+            Title = row.Title,
+            IsActive = row.IsActive,
+            CreatedBy = row.CreatedBy,
+            CreatedAt = row.CreatedAt
+        }));
+        return response;
+    }
+
+    public async Task<DataDescriptionModel> GetDataDescriptionById(Guid datadescritionId)
+    {
+        var response = new List<DataDescriptionModel>();
+        var row = _context.tblDataDescriptions.Where(d => d.DataDescriptionId.Equals(datadescritionId)).FirstOrDefault();
+        return new DataDescriptionModel()
+        {
+            DataDescriptionId = row.DataDescriptionId,
+            DataDescriptions = row.DataDescriptions,
+            DataUploadStatus = row.DataUploadStatus,
+            Title = row.Title,
+            IsActive = row.IsActive,
+            CreatedBy = row.CreatedBy,
+            CreatedAt = row.CreatedAt
+        };
     }
 }

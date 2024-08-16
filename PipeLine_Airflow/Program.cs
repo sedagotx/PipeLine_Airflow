@@ -14,6 +14,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ILoadDataService, LoadDataService>();
 builder.Services.AddScoped<IAirflowServerManager, AirflowServerManager>();
+builder.Services.AddScoped<IDataDescriptionManager, DataDescriptionManager>();
+builder.Services.AddScoped<IDataClassificationLevelManager, DataClassificationLevelManage>();
+builder.Services.AddScoped<IPersonalDataManager, PersonalDataManager>();
+builder.Services.AddScoped<IContainerTypeManager, ContainerTypeManager>();
+builder.Services.AddScoped<ISourceTypeManager, SourceTypeManager>();
 builder.Services.RegisterDataServices(builder.Configuration);
 var app = builder.Build();
 

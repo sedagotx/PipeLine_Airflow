@@ -6,32 +6,14 @@ using Models;
 
 namespace PipeLine_Airflow.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class AirflowController : ControllerBase
     {
-        private readonly ILoadDataService _loadDataService;
+        private readonly IAirflowServerManager _airflowServerManager;
 
-        public AirflowController(ILoadDataService loadDataService )
+        public AirflowController(IAirflowServerManager airflowServerManager )
         {
-            _loadDataService = loadDataService;
-            
-        }
-
-        [HttpPost]
-        public IActionResult Create([FromBody] LoadData data)
-        {
-            Guid obj = Guid.NewGuid();
-            data.DataDescriptionId = obj;
-           _loadDataService.AddLoadData(data);
-                return Ok();
-        }
-
-        [HttpGet]
-        public IActionResult Get()
-        {
-           var result= _loadDataService.GetAllLoadData();
-            return Ok(result);
+            _airflowServerManager = airflowServerManager;
         }
 
        
